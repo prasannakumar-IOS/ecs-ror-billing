@@ -1,0 +1,11 @@
+[
+    {
+      "name": "ror",
+      "imageUri": "763768204702.dkr.ecr.ap-south-1.amazonaws.com/cicd-rorterraform:latest"
+    },
+    {
+        "name": "nginx",
+        "imageUri": "763768204702.dkr.ecr.ap-south-1.amazonaws.com/cicd-nginxterraform:latest"
+      }
+
+  ]
