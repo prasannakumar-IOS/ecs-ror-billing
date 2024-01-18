@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM nginx:latest as base
 
 RUN apt-get update && \
     apt-get install -y nginx vim curl
