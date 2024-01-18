@@ -4,18 +4,20 @@ services:
     build: .
     platform: linux/amd64
     ports:
-    - 3000:3000
+      - 3000:3000
     environment:
-    - RAILS_ENV=production
-    - DB_NAME=database-ror-1
-    - DB_USERNAME=postgres
-    - DB_PASSWORD=password123
-    - DB_HOSTNAME=database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com
-    - DB_PORT=5432
+      - RAILS_ENV=production
+      - DB_NAME=database-ror-1
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password123
+      - DB_HOSTNAME=database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com
+      - DB_PORT=5432
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+
   nginx:
     build: ./nginx
     platform: linux/amd64
     ports:
-    - 80:80
+      - 80:80
     depends_on:
-    - ror
+      - ror
