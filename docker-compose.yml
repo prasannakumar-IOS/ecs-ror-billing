@@ -21,3 +21,5 @@ services:
       - 80:80
     depends_on:
       - ror
+    command: bash -c "until nc -z -w 1 ror 3000; do sleep 1; done && nginx -g 'daemon off;'"
+
