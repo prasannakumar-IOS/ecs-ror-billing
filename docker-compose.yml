@@ -19,5 +19,8 @@ services:
     platform: linux/amd64
     ports:
       - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    command: nginx -g 'daemon off;'
     depends_on:
       - ror
