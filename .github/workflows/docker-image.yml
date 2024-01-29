@@ -38,13 +38,13 @@ jobs:
 
       - name: Build and Push ROR Docker Image
         run: |
-          echo "uc+wxvXCYCLqCVDDOsE5RIOA1LfQMp7A9lbe19kD" | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
+         echo ${{ secrets.AWS_ACCESS_KEY_ID }} | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
           docker build -t 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest .
           docker push 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest
 
       - name: Build and Push Nginx Docker Image
         run: |
-          echo "uc+wxvXCYCLqCVDDOsE5RIOA1LfQMp7A9lbe19kD" | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }} | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
           docker build -t 339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest ./nginx
           docker push 339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest
 
