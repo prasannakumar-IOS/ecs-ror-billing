@@ -1,0 +1,48 @@
+
+name: CI/CD
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    services:
+      db:
+        image: postgres:11
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.3
+
+      - name: Build and Push ROR Docker Image
+        run: |
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }} | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
+          docker build -t 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest .
+          docker push 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest
+
+      - name: Build and Push Nginx Docker Image
+        run: |
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }} | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
+          docker build -t 339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest ./nginx
+          docker push 339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest
+
+      - name: Clean up
+        run: |
+          docker logout 339712759530.dkr.ecr.eu-north-1.amazonaws.com
