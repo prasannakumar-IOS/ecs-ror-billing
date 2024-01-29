@@ -38,7 +38,7 @@ jobs:
 
       - name: Build and Push ROR Docker Image
         run: |
-          echo ${{ secrets.AWS_ACCESS_KEY_ID }} | docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
+          docker login --username AWS --password-stdin 339712759530.dkr.ecr.eu-north-1.amazonaws.com
           docker build -t 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest .
           docker push 339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest
 
