@@ -12,7 +12,6 @@ services:
       - DB_PASSWORD=password123
       - DB_HOSTNAME=database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com
       - DB_PORT=5432
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
 
   nginx:
     build: ./nginx
