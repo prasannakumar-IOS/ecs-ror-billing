@@ -28,6 +28,11 @@ jobs:
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
+        
+       - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Build and Push ROR Docker Image
         run: |
