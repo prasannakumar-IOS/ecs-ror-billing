@@ -8,9 +8,9 @@ phases:
       - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
       - aws configure set region eu-north-1
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region  eu-north-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazona
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/ror-application
-      - REPOSITORY_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/nginx-application
+      - aws ecr get-login-password --region  eu-north-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.eu-north-1.amazona
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/ror-application
+      - REPOSITORY_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/nginx-application
 
   build:
     commands:
