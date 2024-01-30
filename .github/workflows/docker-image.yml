@@ -35,6 +35,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Check AWS CLI Configuration
+        run: aws configure list
 
       - name: Build and Push ROR Docker Image
         run: |
