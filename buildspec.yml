@@ -3,12 +3,10 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Dokerhub
-      - docker login -u naveen2112 -p $DOCKER_PASS
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/cicd-rorterraform
-      - REPOSITORY_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/cicd-nginxterraform
+      - aws ecr get-login-password --region  eu-north-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazona
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/ror-application
+      - REPOSITORY_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/nginx-application
 
   build:
     commands:
@@ -26,5 +24,3 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - echo push nginx image...
       - docker push $REPOSITORY_URI_NGINX:latest
-
-      
