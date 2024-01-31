@@ -30,6 +30,6 @@ phases:
       - echo push nginx image...
       - docker push $REPOSITORY_URI_NGINX:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"ror","imageUri":"%s"}, {"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI:latest $REPOSITORY_URI_NGINX:latest > imagedefinitions.json
+      - printf '[{"name":"ror-web","imageUri":"%s"}, {"name":"ror-nginx","imageUri":"%s"}]' $REPOSITORY_URI:latest $REPOSITORY_URI_NGINX:latest > imagedefinitions.json
 artifacts:
    files: imagedefinitions.json
