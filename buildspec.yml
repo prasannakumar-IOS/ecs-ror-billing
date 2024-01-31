@@ -21,6 +21,7 @@ phases:
       - cd ./nginx
       - docker build -t $REPOSITORY_URI_NGINX:latest .
       - docker tag $REPOSITORY_URI_NGINX:latest $REPOSITORY_URI_NGINX:latest
+      
   post_build:
     commands:
       - echo Build completed on `date`
@@ -28,3 +29,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - echo push nginx image...
       - docker push $REPOSITORY_URI_NGINX:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"ror","imageUri":"%s"}, {"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI:latest $REPOSITORY_URI_NGINX:latest > imagedefinitions.json
+  artifacts:
+      files: imagedefinitions.json
