@@ -1,1 +1,12 @@
+[
+    {
+      "name": "ror-web",
+      "imageUri": "339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest"
+    },
+    {
+        "name": "ror-nginx",
+        "imageUri": "339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest"
+      }
+
+  ]
 
