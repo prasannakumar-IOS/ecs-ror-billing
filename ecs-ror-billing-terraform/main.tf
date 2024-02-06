@@ -373,6 +373,14 @@ resource "aws_ecs_service" "app" {
   lifecycle {
     ignore_changes = [desired_count]
   }
+
+  depends_on = [aws_lb_target_group.app]
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.app.arn
+    container_name   = "app"
+    container_port   = 80
+  }
 }
 
 # --- ALB ---
@@ -439,15 +447,4 @@ resource "aws_lb_listener" "http" {
 
 output "alb_url" {
   value = aws_lb.main.dns_name
-}
-
-resource "aws_ecs_service" "app" {
-
-  depends_on = [aws_lb_target_group.app]
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
-    container_name   = "ror-nginx"
-    container_port   = 80
-  }
 }
