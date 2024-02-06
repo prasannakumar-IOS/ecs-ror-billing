@@ -378,7 +378,7 @@ resource "aws_ecs_service" "app" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.app.arn
-    container_name   = "app"
+    container_name   = "ror-nginx"
     container_port   = 80
   }
 }
