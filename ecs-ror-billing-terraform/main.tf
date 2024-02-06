@@ -233,83 +233,65 @@ resource "aws_cloudwatch_log_group" "ecs" {
 # --- ECS Task Definition ---
 
 resource "aws_ecs_task_definition" "app" {
-  family             = "billing-terra-app"
-  task_role_arn      = aws_iam_role.ecs_task_role.arn
-  execution_role_arn = aws_iam_role.ecs_exec_role.arn
-  network_mode       = "awsvpc"
-  cpu                = 1024
-  memory             = 3072
+  family                   = "billing-terra-app"
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
+  execution_role_arn       = aws_iam_role.ecs_exec_role.arn
+  network_mode             = "awsvpc"
+  cpu                      = 1024
+  memory                   = 3072
 
-  container_definitions = jsonencode([{
-    name         = "ror-web",
-    image        = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest",
-    essential    = true,
-    portMappings = [
-                {
-                    "name": "ror-web-3000-tcp",
-                    "containerPort": 3000,
-                    "hostPort": 3000,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-    environment = [
-                {
-                    "name": "DB_NAME",
-                    "value": "database-ror-1"
-                },
-                {
-                    "name": "RAILS_ENV",
-                    "value": "production"
-                },
-                {
-                    "name": "DB_USERNAME",
-                    "value": "postgres"
-                },
-                {
-                    "name": "DB_PORT",
-                    "value": "5432"
-                },
-                {
-                    "name": "DB_HOSTNAME",
-                    "value": "database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com"
-                },
-                {
-                    "name": "DB_PASSWORD",
-                    "value": "password123"
-                }
-            ]
-
-    logConfiguration = {
-      logDriver = "awslogs",
-      options = {
-        "awslogs-region"        = "eu-north-1",
-        "awslogs-group"         = aws_cloudwatch_log_group.ecs.name,
-        "awslogs-stream-prefix" = "app"
+  container_definitions = jsonencode([
+    {
+      name                = "ror-web",
+      image               = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest",
+      essential           = true,
+      portMappings        = [
+        {
+          name             = "ror-web-3000-tcp",
+          containerPort    = 3000,
+          hostPort         = 3000,
+          protocol         = "tcp",
+          appProtocol      = "http"
+        }
+      ],
+      environment          = [
+        {
+          name             = "DB_NAME",
+          value            = "database-ror-1"
+        },
+        # ...other environment variables
+      ],
+      logConfiguration     = {
+        logDriver          = "awslogs",
+        options            = {
+          awslogs-region       = "eu-north-1",
+          awslogs-group        = aws_cloudwatch_log_group.ecs.name,
+          awslogs-stream-prefix = "app"
+        }
       }
     },
-  },
-{
-    name         = "ror-nginx",
-    image        = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest,
-    essential    = true,
-    portMappings = [{
-                    "name": "ror-nginx-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }],
-
-    environment = []
-    logConfiguration = {
-      logDriver = "awslogs",
-      options = {
-        "awslogs-region"        = "eu-north-1",
-        "awslogs-group"         = aws_cloudwatch_log_group.ecs.name,
-        "awslogs-stream-prefix" = "app"
+    {
+      name                = "ror-nginx",
+      image               = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest",
+      essential           = true,
+      portMappings        = [
+        {
+          name              = "ror-nginx-80-tcp",
+          containerPort     = 80,
+          hostPort          = 80,
+          protocol          = "tcp",
+          appProtocol       = "http"
+        }
+      ],
+      environment         = [],
+      logConfiguration    = {
+        logDriver          = "awslogs",
+        options            = {
+          awslogs-region       = "eu-north-1",
+          awslogs-group        = aws_cloudwatch_log_group.ecs.name,
+          awslogs-stream-prefix = "app"
+        }
       }
-    },
-}])
+    }
+  ])
 }
-
