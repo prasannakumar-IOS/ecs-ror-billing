@@ -193,3 +193,123 @@ resource "aws_ecs_cluster_capacity_providers" "main" {
     weight            = 100
   }
 }
+
+# --- ECS Task Role -----
+
+data "aws_iam_policy_document" "ecs_task_doc" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name_prefix        = "billing-terra-ecs-task-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+}
+
+resource "aws_iam_role" "ecs_exec_role" {
+  name_prefix        = "demo-ecs-exec-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_exec_role_policy" {
+  role       = aws_iam_role.ecs_exec_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# --- Cloud Watch Logs ---
+
+resource "aws_cloudwatch_log_group" "ecs" {
+  name              = "/ecs/demo-billing-terra"
+  retention_in_days = 14
+}
+
+# --- ECS Task Definition ---
+
+resource "aws_ecs_task_definition" "app" {
+  family             = "billing-terra-app"
+  task_role_arn      = aws_iam_role.ecs_task_role.arn
+  execution_role_arn = aws_iam_role.ecs_exec_role.arn
+  network_mode       = "awsvpc"
+  cpu                = 1024
+  memory             = 3072
+
+  container_definitions = jsonencode([{
+    name         = "ror-web",
+    image        = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/ror-application:latest",
+    essential    = true,
+    portMappings = [
+                {
+                    "name": "ror-web-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+    environment = [
+                {
+                    "name": "DB_NAME",
+                    "value": "database-ror-1"
+                },
+                {
+                    "name": "RAILS_ENV",
+                    "value": "production"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "DB_HOSTNAME",
+                    "value": "database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "password123"
+                }
+            ]
+
+    logConfiguration = {
+      logDriver = "awslogs",
+      options = {
+        "awslogs-region"        = "eu-north-1",
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs.name,
+        "awslogs-stream-prefix" = "app"
+      }
+    },
+  },
+{
+    name         = "ror-nginx",
+    image        = "339712759530.dkr.ecr.eu-north-1.amazonaws.com/nginx-application:latest,
+    essential    = true,
+    portMappings = [{
+                    "name": "ror-nginx-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }],
+
+    environment = []
+    logConfiguration = {
+      logDriver = "awslogs",
+      options = {
+        "awslogs-region"        = "eu-north-1",
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs.name,
+        "awslogs-stream-prefix" = "app"
+      }
+    },
+}])
+}
+
