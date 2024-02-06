@@ -236,9 +236,12 @@ resource "aws_ecs_task_definition" "app" {
   family                   = "billing-terra-app"
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   execution_role_arn       = aws_iam_role.ecs_exec_role.arn
-  network_mode             = "awsvpc"
+  network_mode             = "host"
   cpu                      = 1024
   memory                   = 3072
+  requiresCompatibilities  = [
+        "EC2"
+    ]
 
   container_definitions = jsonencode([
     {
@@ -255,11 +258,30 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment          = [
-        {
-          name             = "DB_NAME",
-          value            = "database-ror-1"
-        },
-        # ...other environment variables
+                {
+                    "name": "DB_NAME",
+                    "value": "database-ror-1"
+                },
+                {
+                    "name": "RAILS_ENV",
+                    "value": "production"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "DB_HOSTNAME",
+                    "value": "database-ror-1.c94w606mildh.eu-north-1.rds.amazonaws.com"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "password123"
+                }
       ],
       logConfiguration     = {
         logDriver          = "awslogs",
