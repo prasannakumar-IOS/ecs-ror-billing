@@ -121,9 +121,9 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 }
 
 resource "aws_launch_template" "ecs_ec2" {
-  name_prefix            = "billing-ecs-ec2-"
+  name_prefix            = "billing-ecs-ec2"
   image_id               = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.ecs_node_sg.id]
 
   iam_instance_profile { arn = aws_iam_instance_profile.ecs_node.arn }
