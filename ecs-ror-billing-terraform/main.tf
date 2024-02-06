@@ -420,7 +420,7 @@ resource "aws_lb_target_group" "app" {
   vpc_id      = aws_vpc.main.id
   protocol    = "HTTP"
   port        = 80
-  target_type = "ip"
+  target_type = "instance"
 
   health_check {
     enabled             = true
