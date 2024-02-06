@@ -242,10 +242,6 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities  = [
         "EC2"
   ]
-  runtime_platform = {
-        cpuArchitecture = "X86_64"
-        operatingSystemFamily = "LINUX"
-  }
 
   container_definitions = jsonencode([
     {
@@ -261,6 +257,10 @@ resource "aws_ecs_task_definition" "app" {
           appProtocol      = "http"
         }
       ],
+      runtime_platform = {
+        cpuArchitecture = "X86_64"
+        operatingSystemFamily = "LINUX"
+      },
       environment          = [
                 {
                     "name": "DB_NAME",
@@ -309,6 +309,10 @@ resource "aws_ecs_task_definition" "app" {
           appProtocol       = "http"
         }
       ],
+      runtime_platform = {
+        cpuArchitecture = "X86_64"
+        operatingSystemFamily = "LINUX"
+      },
       environment         = [],
       logConfiguration    = {
         logDriver          = "awslogs",
