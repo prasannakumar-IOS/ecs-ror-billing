@@ -241,7 +241,11 @@ resource "aws_ecs_task_definition" "app" {
   memory                   = 3072
   requires_compatibilities  = [
         "EC2"
-    ]
+  ]
+  runtime_platform = {
+        cpu_architecture = "X86_64",
+        operating_system_family = "LINUX"
+  }
 
   container_definitions = jsonencode([
     {
