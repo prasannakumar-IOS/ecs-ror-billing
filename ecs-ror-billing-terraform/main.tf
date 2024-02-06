@@ -243,8 +243,8 @@ resource "aws_ecs_task_definition" "app" {
         "EC2"
   ]
   runtime_platform = {
-        cpu_architecture = "X86_64",
-        operating_system_family = "LINUX"
+        cpuArchitecture = "X86_64"
+        operatingSystemFamily = "LINUX"
   }
 
   container_definitions = jsonencode([
