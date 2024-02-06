@@ -239,7 +239,7 @@ resource "aws_ecs_task_definition" "app" {
   network_mode             = "host"
   cpu                      = 1024
   memory                   = 3072
-  requiresCompatibilities  = [
+  requires_compatibilities  = [
         "EC2"
     ]
 
