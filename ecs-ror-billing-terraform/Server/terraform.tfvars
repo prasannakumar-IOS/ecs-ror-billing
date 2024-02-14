@@ -1,4 +1,5 @@
 region = "eu-north-1"
+ecs_cluster_name = "ecs-new-cluster"
 launch_template_name = "billing1-ecs-ec2"
 launch_template_instance_type = "t3.medium"
 auto_scaling_group_name = "billing1-ecs-asg"
