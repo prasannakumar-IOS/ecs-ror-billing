@@ -95,5 +95,5 @@ variable "ecs_service_name" {
 
 variable "ecs_alb_name" {
   type        = string
-  description = "ecs application load balancer name string"
+  description = "ecs application load balancer name string."
 }
