@@ -1,3 +1,9 @@
+# --- ECS Cluster ---
+
+resource "aws_ecs_cluster" "main" {
+  name = var.ecs_cluster_name
+}
+
 # --- ECS Capacity Provider ---
 
 resource "aws_ecs_capacity_provider" "main" {
