@@ -1,7 +1,11 @@
 
+data "aws_ssm_parameter" "vpc_id" {
+  name = "billing1-vpc-id"
+}
+
 resource "aws_security_group" "ecs_node_sg" {
   name_prefix = var.security_groups_name
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_ssm_parameter.vpc_id.value
 
   egress {
     from_port   = 0
