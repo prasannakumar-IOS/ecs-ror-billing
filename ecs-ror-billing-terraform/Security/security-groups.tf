@@ -1,7 +1,7 @@
 
 resource "aws_security_group" "ecs_node_sg" {
   name_prefix = var.security_groups_name
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0
