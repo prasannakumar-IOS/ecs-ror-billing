@@ -57,5 +57,5 @@ resource "aws_route_table_association" "public" {
 resource "aws_ssm_parameter" "vpc_id" {
   name  = "billing1-vpc-id"
   type  = "String"
-  value = aws_vpc.vpc.id
+  value = aws_vpc.main.id
 }
