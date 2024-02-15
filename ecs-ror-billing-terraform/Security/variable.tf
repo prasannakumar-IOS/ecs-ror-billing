@@ -7,7 +7,3 @@ variable "security_groups_name" {
   type        = string
   description = "ECS cluster name string."
 }
-
-variable "vpc_id" {
-  type = string
-}
