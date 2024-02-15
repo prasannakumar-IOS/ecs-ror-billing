@@ -8,3 +8,6 @@ variable "security_groups_name" {
   description = "ECS cluster name string."
 }
 
+variable "vpc_id" {
+  type = string
+}
