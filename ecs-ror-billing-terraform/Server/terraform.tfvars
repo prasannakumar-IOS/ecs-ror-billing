@@ -10,4 +10,4 @@ ecs_task_definition_family_name = "billing1-terra-app"
 ecs_task_definition_family_cpu = 1024
 ecs_task_definition_family_memory = 3072
 ecs_service_name = "ror-new-structure"
-ecs_alb_name = billing1-alb
+ecs_alb_name = "billing1-alb"
