@@ -11,3 +11,4 @@ ecs_task_definition_family_cpu = 1024
 ecs_task_definition_family_memory = 3072
 ecs_service_name = "ror-new-structure"
 ecs_alb_name = "billing1-alb"
+vpc_cidr_block = "10.10.0.0/16"
