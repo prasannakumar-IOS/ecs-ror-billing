@@ -1,9 +1,13 @@
 # --- ALB ---
 
+data "aws_ssm_parameter" "vpc_id" {
+  name = "billing1-vpc-id"
+}
+
 resource "aws_security_group" "http" {
   name_prefix = "http-sg-"
   description = "Allow all traffic from public"  
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = data.aws_ssm_parameter.vpc_id.value
 
   # Remove dynamic block for specific ports
 
@@ -32,7 +36,7 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "app" {
   name_prefix = "app-"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = data.aws_ssm_parameter.vpc_id.value
   protocol    = "HTTP"
   port        = 80
   target_type = "instance"
