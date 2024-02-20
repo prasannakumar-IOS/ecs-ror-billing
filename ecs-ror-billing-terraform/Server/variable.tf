@@ -62,3 +62,8 @@ variable "ecs_alb_name" {
   type        = string
   description = "ecs application load balancer name string."
 }
+
+variable "vpc_cidr_block" {
+  type        = string
+  description = "The CIDR block for the VPC. This defines the IP address range of the VPC."
+}
