@@ -170,7 +170,7 @@ resource "aws_ecs_task_definition" "app" {
 resource "aws_security_group" "ecs_task" {
   name_prefix = "ecs-task-sg"
   description = "Allow all traffic within the VPC"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = data.aws_ssm_parameter.vpc_id.value
 
   ingress {
     from_port   = 0
