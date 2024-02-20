@@ -8,11 +8,6 @@ variable "ecs_cluster_name" {
   description = "ECS cluster name string."
 }
 
-variable "security_groups_name" {
-  type        = string
-  description = "ECS cluster name string."
-}
-
 variable "launch_template_name" {
   type        = string
   description = "Launch template name string."
