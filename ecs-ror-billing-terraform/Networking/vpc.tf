@@ -59,3 +59,9 @@ resource "aws_ssm_parameter" "vpc_id" {
   type  = "String"
   value = aws_vpc.main.id
 }
+
+resource "aws_ssm_parameter" "security_group_ids" {
+  name  = "billing1-security-group-ids"
+  type  = "String"
+  value = join(",", aws_vpc.main.default_security_group_id)
+}
