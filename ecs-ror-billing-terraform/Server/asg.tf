@@ -24,7 +24,7 @@ resource "aws_launch_template" "ecs_ec2" {
 
 resource "aws_autoscaling_group" "ecs" {
   name_prefix               = var.auto_scaling_group_name
-  vpc_zone_identifier       = aws_subnet.public[*].id
+  vpc_zone_identifier       = data.aws_ssm_parameter.subnet_ids.value
   min_size                  = var.auto_scaling_group_min_size
   max_size                  = var.auto_scaling_group_max_size
   health_check_grace_period = 0
