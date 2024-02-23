@@ -4,13 +4,17 @@ data "aws_ssm_parameter" "ecs_node_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
 }
 
+data "aws_ssm_parameter" "ecs_node_instance_profile_arn" {
+  name = "billing1-ecs-node-instance-profile-arn"
+}
+
 resource "aws_launch_template" "ecs_ec2" {
   name_prefix            = var.launch_template_name
   image_id               = data.aws_ssm_parameter.ecs_node_ami.value
   instance_type          = var.launch_template_instance_type
   vpc_security_group_ids = [data.aws_ssm_parameter.ecs_node_sg_id.value]
 
-  iam_instance_profile { arn = aws_iam_instance_profile.ecs_node.arn }
+  iam_instance_profile { arn =  data.aws_ssm_parameter.ecs_node_instance_profile_arn.value }
   monitoring { enabled = true }
 
   user_data = filebase64("${path.module}/ecs.sh")
