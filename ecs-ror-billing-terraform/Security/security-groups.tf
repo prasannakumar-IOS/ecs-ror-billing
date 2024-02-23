@@ -14,3 +14,9 @@ resource "aws_security_group" "ecs_node_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_ssm_parameter" "ecs_node_sg_id" {
+  name  = "billing1-ecs-node-sg-id"
+  type  = "String"
+  value = aws_security_group.ecs_node_sg.id
+}
