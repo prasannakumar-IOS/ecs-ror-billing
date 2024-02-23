@@ -60,12 +60,6 @@ resource "aws_ssm_parameter" "vpc_id" {
   value = aws_vpc.main.id
 }
 
-resource "aws_ssm_parameter" "ecs_node_sg_id" {
-  name  = "billing1-ecs-node-sg-id"
-  type  = "String"
-  value = aws_security_group.ecs_node_sg.id
-}
-
 resource "aws_ssm_parameter" "subnet_ids" {
   name  = "billing1-subnet-ids"
   type  = "String"
