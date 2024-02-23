@@ -4,6 +4,10 @@ data "aws_ssm_parameter" "vpc_id" {
   name = "billing1-vpc-id"
 }
 
+data "aws_ssm_parameter" "ecs_node_sg_id" {
+  name = "billing1-ecs-node-sg-id"
+}
+
 resource "aws_security_group" "http" {
   name_prefix = "http-sg-"
   description = "Allow all traffic from public"  
