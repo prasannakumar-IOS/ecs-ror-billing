@@ -65,3 +65,15 @@ resource "aws_ssm_parameter" "ecs_node_sg_id" {
   type  = "String"
   value = aws_security_group.ecs_node_sg.id
 }
+
+resource "aws_ssm_parameter" "subnet_ids" {
+  name  = "billing1-subnet-ids"
+  type  = "String"
+  value = aws_subnet.public[*].id
+}
+
+resource "aws_ssm_parameter" "vpc_cidr_block" {
+  name  = "billing1-vpc-cidr-block"
+  type  = "String"
+  value = aws_vpc.main.cidr_block
+}
