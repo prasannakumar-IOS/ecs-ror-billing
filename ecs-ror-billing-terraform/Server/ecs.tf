@@ -69,7 +69,7 @@ resource "aws_iam_role_policy_attachment" "ecs_exec_role_policy" {
 # --- Cloud Watch Logs ---
 
 resource "aws_cloudwatch_log_group" "ecs" {
-  name              = "/ecs/demo-billing-terra"
+  name              = "/ecs/demo-billing-terra-new"
   retention_in_days = 14
 }
 
