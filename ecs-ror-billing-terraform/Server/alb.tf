@@ -38,7 +38,7 @@ resource "aws_security_group" "http" {
 resource "aws_lb" "main" {
   name               = var.ecs_alb_name
   load_balancer_type = "application"
-  subnets            = data.aws_ssm_parameter.subnet_ids.value
+  subnets            = split(",", data.aws_ssm_parameter.subnet_ids.value)
   security_groups    = [aws_security_group.http.id]
 }
 
