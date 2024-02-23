@@ -4,6 +4,10 @@ data "aws_ssm_parameter" "vpc_id" {
   name = "billing1-vpc-id"
 }
 
+data "aws_ssm_parameter" "subnet_ids" {
+  name = "billing1-subnet-ids"
+}
+
 data "aws_ssm_parameter" "ecs_node_sg_id" {
   name = "billing1-ecs-node-sg-id"
 }
@@ -34,7 +38,7 @@ resource "aws_security_group" "http" {
 resource "aws_lb" "main" {
   name               = var.ecs_alb_name
   load_balancer_type = "application"
-  subnets            = aws_subnet.public[*].id
+  subnets            = data.aws_ssm_parameter.subnet_ids.value
   security_groups    = [aws_security_group.http.id]
 }
 
