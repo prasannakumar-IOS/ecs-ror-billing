@@ -4,6 +4,10 @@ resource "aws_ecs_cluster" "main" {
   name = var.ecs_cluster_name
 }
 
+data "aws_ssm_parameter" "vpc_cidr_block" {
+  name = "billing1-vpc-cidr-block"
+}
+
 # --- ECS Capacity Provider ---
 
 resource "aws_ecs_capacity_provider" "main" {
@@ -176,7 +180,7 @@ resource "aws_security_group" "ecs_task" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = [data.aws_ssm_parameter.vpc_cidr_block.value]
   }
 
   egress {
