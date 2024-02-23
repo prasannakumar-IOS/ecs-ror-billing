@@ -27,3 +27,9 @@ resource "aws_iam_instance_profile" "ecs_node" {
   path        = "/ecs/instance/"
   role        = aws_iam_role.ecs_node_role.name
 }
+
+resource "aws_ssm_parameter" "ecs_node_instance_profile_arn" {
+  name  = "billing1-ecs-node-instance-profile-arn"
+  type  = "String"
+  value = aws_iam_instance_profile.ecs_node.arn
+}
