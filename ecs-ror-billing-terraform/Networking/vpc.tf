@@ -63,7 +63,7 @@ resource "aws_ssm_parameter" "vpc_id" {
 resource "aws_ssm_parameter" "subnet_ids" {
   name  = "billing1-subnet-ids"
   type  = "String"
-  value = aws_subnet.public[*].id
+  value = join(",", aws_subnet.public[*].id)
 }
 
 resource "aws_ssm_parameter" "vpc_cidr_block" {
