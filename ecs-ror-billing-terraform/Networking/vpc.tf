@@ -60,8 +60,8 @@ resource "aws_ssm_parameter" "vpc_id" {
   value = aws_vpc.main.id
 }
 
-resource "aws_ssm_parameter" "security_group_ids" {
-  name  = "billing1-security-group-ids"
+resource "aws_ssm_parameter" "ecs_node_sg_id" {
+  name  = "billing1-ecs-node-sg-id"
   type  = "String"
-  value = join(",", aws_vpc.main.default_security_group_id)
+  value = aws_security_group.ecs_node_sg.id
 }
